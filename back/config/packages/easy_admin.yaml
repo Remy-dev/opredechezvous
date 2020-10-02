@@ -1,0 +1,9 @@
+easy_admin:
+    entities:
+        - App\Entity\User
+        - App\Entity\Address
+        - App\Entity\Itinerary
+        - App\Entity\Message
+        - App\Entity\Comment
+        - App\Entity\Product
+        - App\Entity\Tag
