@@ -35,7 +35,7 @@ class Role
     private $roleName;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="role", orphanRemoval=true )
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="role", orphanRemoval=true, cascade={"persist"})
      */
     private $users;
 

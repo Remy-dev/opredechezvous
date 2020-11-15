@@ -46,79 +46,59 @@ class AppFixtures extends Fixture
 
         foreach ($userGroup as $roleGroup => $users) {
             // Role
-            $role = new Role();
-            $role->setRoleName('ROLE_'. mb_strtoupper($roleGroup));
-            $role->setName($roles[$roleGroup]);
 
-
-            foreach ($users as $u) {
-                // New user based on list
-
-                $user = new User;
-                $user->setUsername($u);
-                $user->setPassword($this->encoder->encodePassword($user, $u)); // Le mot de passe est le nom de l'utilisateur
-                $user->setFirstname($faker->firstName);
-                $user->setLastname($faker->lastName);
-                $user->setPhone($faker->randomNumber());
-
-                // unset($roles);
-                $user->setProducer($faker->boolean);
-                $user->setImage($faker->imageUrl());
-                $user->setRole($role);
+                $role = new Role();
+                $role->setRoleName('ROLE_' . mb_strtoupper($roleGroup));
+                $role->setName($roles[$roleGroup]);
                 $manager->persist($role);
+                $manager->flush();
 
 
+                foreach ($users as $u) {
+                    // New user based on list
+                   if (time_sleep_until(time()+4)) {
+                    $user = new User;
+                    $user->setUsername($u);
+                    $user->setPassword($this->encoder->encodePassword($user, $u)); // Le mot de passe est le nom de l'utilisateur
+                    $user->setFirstname($faker->firstName);
+                    $user->setLastname($faker->lastName);
+                    $user->setPhone($faker->randomNumber());
+
+                    // unset($roles);
+                    $user->setProducer($faker->boolean);
+                    $user->setImage($faker->imageUrl());
+                    $user->setEmail($u . '@p-regionaux.oclock.io');
+
+                    // Add it to the list of entities
+                    $usersEntities[] = $user;
+                    // Persist
 
 
-                $user->setEmail($u . '@p-regionaux.oclock.io');
+                    print 'Adding user ' . $user->getUsername() . PHP_EOL;
 
-                // Add it to the list of entities
-                $usersEntities[] = $user;
-                // Persist
-                $manager->persist($user);
+                    $address = new Address();
+                    $address->setUser($user);
+                    $address->setStreetNumber($faker->buildingNumber);
+                    $address->setStreetName($faker->streetName);
+                    $address->setType('boulevard');
+                    $address->setCity($faker->city);
+                    $address->setPostCode((int)$faker->postcode);
+                    $address->setCountry($faker->country);
 
-                print 'Adding user ' . $user->getUsername() . PHP_EOL;
+                    $manager->persist($address);
 
-                $address = new Address();
-                $address->setUser($user);
-                $address->setStreetNumber($faker->buildingNumber);
-                $address->setStreetName($faker->streetName);
-                $address->setType('boulevard');
-                $address->setCity($faker->city);
-                $address->setPostCode((int)$faker->postcode);
-                $address->setCountry($faker->country);
-
-                $manager->persist($address);
-
-                $itinerary = new Itinerary();
-                $itinerary->setDepartureAddress($faker->city);
-                $itinerary->setArrivalAddress($faker->city);
-                $itinerary->setDateDeparture($faker->dateTime('now'));
-                $itinerary->setDateArrival($faker->dateTimeBetween('now', '+1 day'));
-                $itinerary->addUser($user);
+                    $itinerary = new Itinerary();
+                    $itinerary->setDepartureAddress($faker->city);
+                    $itinerary->setArrivalAddress($faker->city);
+                    $itinerary->setDateDeparture($faker->dateTime('now'));
+                    $itinerary->setDateArrival($faker->dateTimeBetween('now', '+1 day'));
+                    $itinerary->addUser($user);
 
 
-                $manager->persist($itinerary);
+                    $manager->persist($itinerary);
 
-                $comment = new Comment();
-                $comment->setTitle($faker->title);
-                $comment->setContent($faker->text);
-                $comment->setRating($faker->randomNumber(1));
-                $comment->setState('published');
-                $comment->setAuthor($user);
-                $comment->setAddressee($user);
-                $manager->persist($comment);
 
-                for ($t = 0; $t < 4; $t++) {
-                    $message = new Message();
-
-                    $message->setContent($faker->text);
-                    $message->setAuthor($user);
-                    $message->setAddressee($user);
-                    $manager->persist($message);
-                }
-                if ($user->isProducer()) {
-                    for ($z = 0; $z < 5; $z++) {
+                    if ($user->isProducer()) {
                         $user->setCompanyPro($faker->company);
                         $user->setDescriptionPro($faker->text);
                         $user->setEmailPro($faker->email);
@@ -126,27 +106,33 @@ class AppFixtures extends Fixture
                         $user->setSiretPro($faker->iban());
                         $user->setWebsitePro($faker->url);
                         $user->setPhonePro($faker->randomNumber());
-                        $user->getRole()->setRoleName('ROLE_PRODUCER');
-                        $product = new Product();
-                        $product->setName($faker->word);
-                        $product->setDescription($faker->text);
-                        $product->setPrice($faker->randomFloat());
-                        $product->setImage($faker->imageUrl());
-                        $product->setUser($user);
+                        for ($z = 0; $z < 5; $z++) {
 
-                        $manager->persist($product);
+                            $product = new Product();
+                            $product->setName($faker->word);
+                            $product->setDescription($faker->text);
+                            $product->setPrice($faker->randomFloat());
+                            $product->setImage($faker->imageUrl());
+                            $product->setUser($user);
+                            $manager->persist($product);
+
+                        }
+                        for ($e = 0; $e < 5; $e++) {
+                            $tag = new Tag();
+                            $tag->setName($faker->word);
+                            $user->addTag($tag);
+                            $manager->persist($tag);
+                        }
+
+
                     }
-                    for ($e = 0; $e < 5; $e++) {
-                        $tag = new Tag();
-                        $tag->setName($faker->word);
-                        $user->addTag($tag);
-                        $manager->persist($tag);
-                    }
-
-
+                    $user->setRole($role);
+                    $manager->persist($user);
+                }
                 }
             }
+
             $manager->flush();
-        }
+
     }
 }

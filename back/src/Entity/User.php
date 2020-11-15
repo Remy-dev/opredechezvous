@@ -215,7 +215,6 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
      * @Groups("read")
      */
     private $role;
@@ -569,7 +568,6 @@ class User implements UserInterface
         return $this;
     }
 
-
     /**
      * @return Collection|Comment[]
      */
@@ -626,68 +624,6 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($commentsAddressee->getAddressee() === $this) {
                 $commentsAddressee->setAddressee(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Message[]
-     */
-    public function getMessagesAuthor(): Collection
-    {
-        return $this->messagesAuthor;
-    }
-
-    public function addMessagesAuthor(Message $messagesAuthor): self
-    {
-        if (!$this->messagesAuthor->contains($messagesAuthor)) {
-            $this->messagesAuthor[] = $messagesAuthor;
-            $messagesAuthor->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessagesAuthor(Message $messagesAuthor): self
-    {
-        if ($this->messagesAuthor->contains($messagesAuthor)) {
-            $this->messagesAuthor->removeElement($messagesAuthor);
-            // set the owning side to null (unless already changed)
-            if ($messagesAuthor->getAuthor() === $this) {
-                $messagesAuthor->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Message[]
-     */
-    public function getMessagesAddressee(): Collection
-    {
-        return $this->messagesAddressee;
-    }
-
-    public function addMessagesAddressee(Message $messagesAddressee): self
-    {
-        if (!$this->messagesAddressee->contains($messagesAddressee)) {
-            $this->messagesAddressee[] = $messagesAddressee;
-            $messagesAddressee->setAddressee($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessagesAddressee(Message $messagesAddressee): self
-    {
-        if ($this->messagesAddressee->contains($messagesAddressee)) {
-            $this->messagesAddressee->removeElement($messagesAddressee);
-            // set the owning side to null (unless already changed)
-            if ($messagesAddressee->getAddressee() === $this) {
-                $messagesAddressee->setAddressee(null);
             }
         }
 
@@ -839,29 +775,6 @@ class User implements UserInterface
     public function getMessages(): Collection
     {
         return $this->messages;
-    }
-
-    public function addMessage(Message $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages[] = $message;
-            $message->setAuthors($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): self
-    {
-        if ($this->messages->contains($message)) {
-            $this->messages->removeElement($message);
-            // set the owning side to null (unless already changed)
-            if ($message->getAuthors() === $this) {
-                $message->setAuthors(null);
-            }
-        }
-
-        return $this;
     }
 
 
