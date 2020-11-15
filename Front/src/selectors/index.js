@@ -26,17 +26,22 @@ export const changeDateFormat = (dateFormated) => {
   const newDate = new Date(dateFormated);
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const middleDate = newDate.toLocaleDateString('de-DE', options);
-  const step_date = middleDate.replace('.', '/').replace('.', '/');
-  return step_date;
+  // eslint-disable-next-line camelcase
+  const stepDate = middleDate.replace('.', '/').replace('.', '/');
+  // eslint-disable-next-line camelcase
+  return stepDate;
 };
 
 export const changeDateTime = (dateFormated) => {
   const newDate = new Date(dateFormated);
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const middleDate = newDate.toLocaleDateString('ko-KR', options);
-  const step_date = middleDate.replace('.', '-').replace('.', '-');
-  return step_date;
+  // eslint-disable-next-line camelcase
+  const stepDateTwo = middleDate.replace('.', '-').replace('.', '-');
+  // eslint-disable-next-line camelcase
+  return stepDateTwo;
 };
 
-export const baseUriAPI = 'http://localhost:8080/back';
+export const baseUriAPI = 'opdcv/back';
+// export const baseUriAPI = 'opdcv/back/';
 export const mercureUri = new URL('http://localhost:3000/.well-known/mercure');

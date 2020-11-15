@@ -1,7 +1,7 @@
 import axios from 'axios';
 // Local import
 
-import { LOGIN } from 'src/actions/auth';
+// import { LOGIN } from 'src/actions/auth';
 
 import {
   LOGIN_CHECK,
@@ -9,7 +9,6 @@ import {
   USER_LOGIN,
   LOGOUT,
   saveUser,
-// eslint-disable-next-line import/no-duplicates
 } from 'src/actions/auth';
 
 import { baseUriAPI } from 'src/selectors';
@@ -25,7 +24,10 @@ const auth = (store) => (next) => (action) => {
           username: store.getState().auth.identifiant,
           password: store.getState().auth.password,
         },
-        { 'Content-Type': 'application/json' },
+        {
+          Authorization: `Bearer ${sessionStorage.jwt}`,
+          'Content-Type': 'application/json',
+        },
       )
         .then((response) => {
           // console.log(response);
@@ -42,7 +44,7 @@ const auth = (store) => (next) => (action) => {
         `${baseUriAPI}${action.iri}`,
         {},
         {
-          // Authorization: `Bearer ${sessionStorage.jwt}`,
+          Authorization: `Bearer ${sessionStorage.jwt}`,
           'Content-Type': 'application/json',
         },
       )

@@ -25,9 +25,10 @@ const itineraries = (store) => (next) => (action) => {
     case FETCH_ITINERARIES:
       store.dispatch(clearItineraries());
       store.dispatch(clearGeometry());
-      axios.get(`${baseUriAPI}/api/itineraries`, {params: { state: 'active' } }, { 'Content-Type': 'application/json' })
+      axios.get(`${baseUriAPI}/api/itineraries`, { params: { state: 'active' } }, { 'Content-Type': 'application/json' })
         .then((response) => {
           // console.log(response.data['hydra:member']);
+          console.log( 'heeeeeeeeeeeeeeeee : ' + response.data);
           store.dispatch(saveItineraries(response.data['hydra:member']));
         })
         .catch((error) => console.log(error));
