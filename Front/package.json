@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
+    "cjs": "^0.0.11",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.8.0",
     "event-source-polyfill": "^1.0.20",

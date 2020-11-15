@@ -9,6 +9,7 @@ import {
   USER_LOGIN,
   LOGOUT,
   saveUser,
+// eslint-disable-next-line import/no-duplicates
 } from 'src/actions/auth';
 
 import { baseUriAPI } from 'src/selectors';

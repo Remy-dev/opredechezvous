@@ -10,10 +10,9 @@
 //   return maxId + 1;
 // };
 
-export const isAuthor = (author, pseudo) => author === pseudo;
-
 import slugify from 'slugify';
 
+export const isAuthor = (author, pseudo) => author === pseudo;
 
 export const slugifyText = (text = '') => {
   const modifiedText = text.replace(/&/g, '').replace(/_/g, '-');
@@ -39,5 +38,5 @@ export const changeDateTime = (dateFormated) => {
   return step_date;
 };
 
-export const baseUriAPI = 'http://localhost:8000';
+export const baseUriAPI = 'http://localhost:8080/back';
 export const mercureUri = new URL('http://localhost:3000/.well-known/mercure');

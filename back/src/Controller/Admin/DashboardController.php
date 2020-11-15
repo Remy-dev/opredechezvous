@@ -11,6 +11,8 @@ use App\Entity\Product;
 use App\Entity\Role;
 use App\Entity\Tag;
 use App\Entity\User;
+use Cron\CronBundle\Entity\CronJob;
+use Cron\CronBundle\Entity\CronReport;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -49,6 +51,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Products', 'fas fa-box', Product::class);
         yield MenuItem::linkToCrud('Roles', 'fas fa-capsules', Role::class);
         yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class);
+        yield MenuItem::linkToCrud('Cron jobs', 'fas fa-calendar', CronJob::class);
+        yield MenuItem::linkToCrud('Cron reports', 'fas fa-folder', CronReport::class);
         // yield MenuItem::linkToCrud('The Label', 'icon class', EntityClass::class);
     }
 }
