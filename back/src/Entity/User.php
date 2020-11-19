@@ -176,43 +176,33 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Address::class, mappedBy="user" , orphanRemoval=true)
      * @Groups ("read")
-     * @ApiSubresource(maxDepth=1)
      */
     private  $addresses;
 
     /**
      * @ORM\ManyToMany(targetEntity=Itinerary::class, mappedBy="user", orphanRemoval=true)
-     * @Groups ("read")
-     * @ApiSubresource(maxDepth=1)
      */
     private  $itineraries;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author", orphanRemoval=true)
-     * @Groups ("read")
-     * @@ApiSubresource(maxDepth=1)
      */
     private  $commentsAuthor;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="addressee", orphanRemoval=true)
-     * @Groups ("read")
-     * @ApiSubresource(maxDepth=1)
      */
     private  $commentsAddressee;
 
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="user", orphanRemoval=true)
-     *  @Groups ("read")
-     * @ApiSubresource (maxDepth=1)
      */
     private  $products;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="users", orphanRemoval=true, cascade={"persist"})
-     *  @Groups ("read")
-     * @ApiSubresource(maxDepth=1)
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="users", orphanRemoval=true)
+     * @Groups("read")
      */
     private  $tags;
 
@@ -231,13 +221,12 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=Discussion::class, inversedBy="users")
-     * @ApiSubresource(maxDepth=1)
+     *
      */
     private  $discussions;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="author")
-     * @ApiSubresource(maxDepth=1)
      */
     private  $messages;
 

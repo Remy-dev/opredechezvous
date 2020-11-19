@@ -62,7 +62,7 @@ class Message
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Discussion::class, inversedBy="messages", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Discussion::class, inversedBy="messages")
      */
     private $conversation;
 

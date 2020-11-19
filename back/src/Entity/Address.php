@@ -70,7 +70,7 @@ class Address
      */
     private $user;
 
-    public function __toString()
+    public function __toString(): string
     {
         if (empty($this->streetName))
         {

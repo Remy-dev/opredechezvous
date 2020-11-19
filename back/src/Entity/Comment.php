@@ -77,13 +77,13 @@ class Comment
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsAuthor")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsAuthor", cascade={"persist"})
      * @Groups ("read")
      */
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsAddressee")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsAddressee", cascade={"persist"})
      * @Groups ("read")
      */
     private $addressee;
