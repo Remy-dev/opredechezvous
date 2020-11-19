@@ -11,7 +11,7 @@ use Doctrine\ORM\PersistentCollection;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use App\Filter\RandomFilter;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 /**
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
@@ -175,24 +176,28 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Address::class, mappedBy="user" , orphanRemoval=true)
      * @Groups ("read")
+     * @ApiSubresource(maxDepth=1)
      */
     private  $addresses;
 
     /**
      * @ORM\ManyToMany(targetEntity=Itinerary::class, mappedBy="user", orphanRemoval=true)
      * @Groups ("read")
+     * @ApiSubresource(maxDepth=1)
      */
     private  $itineraries;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author", orphanRemoval=true, cascade={"persist"})
-     * @Groups ({"read", "write"})
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author", orphanRemoval=true)
+     * @Groups ("read")
+     * @@ApiSubresource(maxDepth=1)
      */
     private  $commentsAuthor;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="addressee", orphanRemoval=true, cascade={"persist"})
-     * @Groups ({"read", "write"})
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="addressee", orphanRemoval=true)
+     * @Groups ("read")
+     * @ApiSubresource(maxDepth=1)
      */
     private  $commentsAddressee;
 
@@ -200,18 +205,21 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="user", orphanRemoval=true)
      *  @Groups ("read")
+     * @ApiSubresource (maxDepth=1)
      */
     private  $products;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="users", orphanRemoval=true, cascade={"persist"})
      *  @Groups ("read")
+     * @ApiSubresource(maxDepth=1)
      */
     private  $tags;
 
     /**
      * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
      * @Groups("read")
+     * @ApiSubresource(maxDepth=1)
      */
     private ?Role $role;
 
@@ -223,11 +231,13 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=Discussion::class, inversedBy="users")
+     * @ApiSubresource(maxDepth=1)
      */
     private  $discussions;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="author")
+     * @ApiSubresource(maxDepth=1)
      */
     private  $messages;
 

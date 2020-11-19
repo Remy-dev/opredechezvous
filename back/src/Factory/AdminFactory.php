@@ -43,7 +43,9 @@ final class AdminFactory extends ModelFactory
         // see https://github.com/zenstruck/foundry#initialization
         return $this
             ->afterInstantiate(function(Admin $admin) {
-            $admin->setPassword($this->encoder->encodePassword($admin, $admin->getUsername()));
+                $username = $admin->getUsername();
+                $password = $this->encoder->encodePassword($admin, $username);
+            $admin->setPassword($password);
         });
 
     }
