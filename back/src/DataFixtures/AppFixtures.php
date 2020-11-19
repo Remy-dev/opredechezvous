@@ -3,31 +3,46 @@
 namespace App\DataFixtures;
 
 use App\Entity\Address;
+use App\Entity\Admin;
 use App\Entity\Comment;
 use App\Entity\Itinerary;
 use App\Entity\Message;
 use App\Entity\Product;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Factory\AddressFactory;
+use App\Factory\AdminFactory;
+use App\Factory\CommentFactory;
+use App\Factory\ItineraryFactory;
+use App\Factory\ProductFactory;
+use App\Factory\RoleFactory;
+use App\Factory\TagFactory;
+use App\Factory\UserFactory;
+use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
-use Faker;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\Role;
+use function Zenstruck\Foundry\faker;
+
 class AppFixtures extends Fixture
 {
     private $encoder;
+    private $manager;
+    private $userRepository;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager, UserRepository $userRepository)
     {
         $this->encoder = $encoder;
+        $this->manager = $manager;
+        $this->userRepository = $userRepository;
     }
 
     public function load(ObjectManager $manager)
     {
-        $faker = Faker\Factory::create();
-        // $product = new Product();
-        // $manager->persist($product);
+
         $roles = [
             'admin' => 'Administrateur',
             'moderator' => 'Modérateur',
@@ -42,97 +57,71 @@ class AppFixtures extends Fixture
             'producer' => ['jean', 'claude'],
             'user' => ['remy', 'roland', 'marc'],
         );
-        $usersEntities = array();
+
 
         foreach ($userGroup as $roleGroup => $users) {
             // Role
 
-                $role = new Role();
-                $role->setRoleName('ROLE_' . mb_strtoupper($roleGroup));
-                $role->setName($roles[$roleGroup]);
-                $manager->persist($role);
-                $manager->flush();
-
-
-                foreach ($users as $u) {
-                    // New user based on list
-                   if (time_sleep_until(time()+4)) {
-                    $user = new User;
-                    $user->setUsername($u);
-                    $user->setPassword($this->encoder->encodePassword($user, $u)); // Le mot de passe est le nom de l'utilisateur
-                    $user->setFirstname($faker->firstName);
-                    $user->setLastname($faker->lastName);
-                    $user->setPhone($faker->randomNumber());
-
-                    // unset($roles);
-                    $user->setProducer($faker->boolean);
-                    $user->setImage($faker->imageUrl());
-                    $user->setEmail($u . '@p-regionaux.oclock.io');
-
-                    // Add it to the list of entities
-                    $usersEntities[] = $user;
-                    // Persist
-
-
-                    print 'Adding user ' . $user->getUsername() . PHP_EOL;
-
-                    $address = new Address();
-                    $address->setUser($user);
-                    $address->setStreetNumber($faker->buildingNumber);
-                    $address->setStreetName($faker->streetName);
-                    $address->setType('boulevard');
-                    $address->setCity($faker->city);
-                    $address->setPostCode((int)$faker->postcode);
-                    $address->setCountry($faker->country);
-
-                    $manager->persist($address);
-
-                    $itinerary = new Itinerary();
-                    $itinerary->setDepartureAddress($faker->city);
-                    $itinerary->setArrivalAddress($faker->city);
-                    $itinerary->setDateDeparture($faker->dateTime('now'));
-                    $itinerary->setDateArrival($faker->dateTimeBetween('now', '+1 day'));
-                    $itinerary->addUser($user);
-
-
-                    $manager->persist($itinerary);
-
-
-                    if ($user->isProducer()) {
-                        $user->setCompanyPro($faker->company);
-                        $user->setDescriptionPro($faker->text);
-                        $user->setEmailPro($faker->email);
-                        $user->setImagePro($faker->imageUrl());
-                        $user->setSiretPro($faker->iban());
-                        $user->setWebsitePro($faker->url);
-                        $user->setPhonePro($faker->randomNumber());
-                        for ($z = 0; $z < 5; $z++) {
-
-                            $product = new Product();
-                            $product->setName($faker->word);
-                            $product->setDescription($faker->text);
-                            $product->setPrice($faker->randomFloat());
-                            $product->setImage($faker->imageUrl());
-                            $product->setUser($user);
-                            $manager->persist($product);
-
-                        }
-                        for ($e = 0; $e < 5; $e++) {
-                            $tag = new Tag();
-                            $tag->setName($faker->word);
-                            $user->addTag($tag);
-                            $manager->persist($tag);
-                        }
-
-
-                    }
-                    $user->setRole($role);
-                    $manager->persist($user);
-                }
-                }
-            }
-
+            $role = new Role();
+            $role->setRoleName('ROLE_' . mb_strtoupper($roleGroup));
+            $role->setName($roles[$roleGroup]);
+            $manager->persist($role);
             $manager->flush();
 
+            foreach ($users as $u) {
+                // New user based on list
+              //  if (time_sleep_until(time() + 1)) {
+
+                    if ($role->getName() === 'Utilisateur' || $role->getName() === 'Producteur') {
+
+                        $user = UserFactory::new()->create(['username' => $u])->object();
+                      //  $usersEntities[] = $user;
+                        $user->setRole($role);
+                        print 'Adding user ' . $user->getUsername() . PHP_EOL;
+                        AddressFactory::new()->create(['user' => $user]);
+
+                        $itinerary = ItineraryFactory::new()->create()->object();
+                        $itinerary->addUser($user);
+
+                        if ($user->isProducer()) {
+
+                            for ($z = 0; $z < 5; $z++) {
+                                $product = ProductFactory::new()->create()->object();
+                                $product->setUser($user);
+                            }
+                            for ($e = 0; $e < 5; $e++) {
+                                $tag = TagFactory::new()->create()->object();
+                                $user->addTag($tag);
+                            }
+                        }
+
+                    } elseif ($role->getName() === 'Administrateur') {
+
+                        print 'role id : ' . $role->getId() . PHP_EOL;
+                        $admin = AdminFactory::new()->create(['username' => $u])->object();
+                        $admin->setRole($role);
+
+                        print 'Adding admin ' . $admin->getUsername() . PHP_EOL;
+                    }
+
+
+            //    }
+            }
+
+            $users = $this->userRepository->findAll();
+            print 'commentaire : ' . PHP_EOL;
+            foreach ($users as $user) {
+                $comment = CommentFactory::new()->create(['author' => $user ])->object();
+                $addressee = $this->userRepository->findOneRandom($user);
+                print 'addressee contains id : ' . $addressee->getId() . PHP_EOL;
+                $comment->setAddressee($addressee);
+
+            }
+
+        }
+
+
     }
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
+use App\Repository\UserRepository;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
@@ -19,10 +20,12 @@ use Zenstruck\Foundry\Proxy;
  */
 final class CommentFactory extends ModelFactory
 {
-    public function __construct()
+    private object $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
         parent::__construct();
-
+        $this->userRepository = $userRepository;
         // TODO inject services if required (https://github.com/zenstruck/foundry#factories-as-services)
     }
 
@@ -30,14 +33,19 @@ final class CommentFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
-        ];
+            'title' => self::faker()->realText(50),
+            'content'=> self::faker()->paragraph,
+            'rating' => self::faker()->numberBetween(0,5),        ];
     }
 
     protected function initialize(): self
     {
         // see https://github.com/zenstruck/foundry#initialization
         return $this
-            // ->afterInstantiate(function(Comment $comment) {})
+            ->afterPersist(function(Comment $comment) {
+                $addressee = $this->userRepository->findOneRandom($comment->getAuthor());
+                $comment->setAddressee($addressee);
+            })
         ;
     }
 

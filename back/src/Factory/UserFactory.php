@@ -4,9 +4,11 @@ namespace App\Factory;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
+use function Zenstruck\Foundry\faker;
 
 /**
  * @method static User|Proxy findOrCreate(array $attributes)
@@ -19,10 +21,13 @@ use Zenstruck\Foundry\Proxy;
  */
 final class UserFactory extends ModelFactory
 {
-    public function __construct()
+    private object $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
         parent::__construct();
 
+        $this->encoder = $encoder;
         // TODO inject services if required (https://github.com/zenstruck/foundry#factories-as-services)
     }
 
@@ -30,6 +35,15 @@ final class UserFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
+            'username' => self::faker()->userName,
+            'password' => self::faker()->password,
+            'firstname' => self::faker()->firstName,
+            'lastname' => self::faker()->lastName,
+            'email' => self::faker()->safeEmail,
+            'phone' => self::faker()->phoneNumber,
+            'producer' => self::faker()->boolean(25),
+            'image' => self::faker()->imageUrl(),
+
         ];
     }
 
@@ -37,7 +51,18 @@ final class UserFactory extends ModelFactory
     {
         // see https://github.com/zenstruck/foundry#initialization
         return $this
-            // ->afterInstantiate(function(User $user) {})
+            ->afterInstantiate(function(User $user) {
+                $user->setPassword($this->encoder->encodePassword($user, $user->getUsername()));
+                if ($user->isProducer()) {
+                    $user->setCompanyPro(faker()->company);
+                    $user->setDescriptionPro(faker()->realText(50));
+                    $user->setEmailPro(faker()->safeEmail);
+                    $user->setImagePro(faker()->imageUrl());
+                    $user->setSiretPro(faker()->iban());
+                    $user->setWebsitePro(faker()->url);
+                    $user->setPhonePro(faker()->phoneNumber);
+                }
+            })
         ;
     }
 

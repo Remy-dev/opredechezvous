@@ -30,6 +30,11 @@ final class ProductFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
+
+            'name' => self::faker()->name,
+            'price' => self::faker()->randomFloat(2,0, 100),
+            'description' => self::faker()->text(50),
+            'image' => self::faker()->imageUrl()
         ];
     }
 

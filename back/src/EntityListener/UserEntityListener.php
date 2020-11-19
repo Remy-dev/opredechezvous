@@ -37,7 +37,7 @@ class UserEntityListener
             $user->setRole($role);
         }
 
-        $user->sendMailOnRegistration($this->mailer);
+     //   $user->sendMailOnRegistration($this->mailer);
 
     }
 

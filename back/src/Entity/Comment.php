@@ -26,7 +26,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *          "patch"={"security"="is_granted('ROLE_USER')"},
  *          "delete"={"security"="is_granted('ROLE_ADMIN')"}
  *     },
- *     denormalizationContext={"groups"={"post"}}
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"post"}},
  *
  * )
  * @ApiFilter (
@@ -41,51 +42,49 @@ class Comment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups ({"read", "post"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups ("post")
+     * @Groups ({"read", "post"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups ("post")
+     * @Groups ({"read", "post"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups ("post")
+     * @Groups ({"read", "post"})
      */
     private $rating;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups ({"read", "post"})
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups ({"read", "post"})
      */
     private $updated_at;
 
-
-
-
-
-
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsAuthor")
-     * @Groups ("post")
+     * @Groups ("read")
      */
     private $author;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsAddressee")
-     * @Groups ("post")
+     * @Groups ("read")
      */
     private $addressee;
 

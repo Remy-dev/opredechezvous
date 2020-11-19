@@ -30,14 +30,21 @@ final class ItineraryFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
-        ];
+
+            'departureAddress' => self::faker()->address,
+            'arrivalAddress' => self::faker()->address,
+            'dateDeparture' => self::faker()->dateTimeBetween('-1 day', '+2 days'),
+            'state' => 'active',
+            'description' => self::faker()->text('50')        ];
     }
 
     protected function initialize(): self
     {
         // see https://github.com/zenstruck/foundry#initialization
         return $this
-            // ->afterInstantiate(function(Itinerary $itinerary) {})
+            ->afterInstantiate(function(Itinerary $itinerary) {
+                $itinerary->setDateArrival(self::faker()->dateTimeBetween($itinerary->getDateDeparture()->format('Y/m/d h:i'), '+ 5 days'));
+            })
         ;
     }
 

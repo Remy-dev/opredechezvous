@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Admin;
 use App\Repository\AdminRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
@@ -19,10 +20,13 @@ use Zenstruck\Foundry\Proxy;
  */
 final class AdminFactory extends ModelFactory
 {
-    public function __construct()
+    private object $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
         parent::__construct();
 
+        $this->encoder = $encoder;
         // TODO inject services if required (https://github.com/zenstruck/foundry#factories-as-services)
     }
 
@@ -30,6 +34,7 @@ final class AdminFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
+
         ];
     }
 
@@ -37,8 +42,10 @@ final class AdminFactory extends ModelFactory
     {
         // see https://github.com/zenstruck/foundry#initialization
         return $this
-            // ->afterInstantiate(function(Admin $admin) {})
-        ;
+            ->afterInstantiate(function(Admin $admin) {
+            $admin->setPassword($this->encoder->encodePassword($admin, $admin->getUsername()));
+        });
+
     }
 
     protected static function getClass(): string

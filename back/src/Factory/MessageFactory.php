@@ -7,6 +7,7 @@ use App\Repository\MessageRepository;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
+use function Zenstruck\Foundry\faker;
 
 /**
  * @method static Message|Proxy findOrCreate(array $attributes)
@@ -30,6 +31,7 @@ final class MessageFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
+            'content' => self::faker()->text(120)
         ];
     }
 

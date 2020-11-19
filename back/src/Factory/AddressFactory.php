@@ -30,6 +30,12 @@ final class AddressFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
+            'streetNumber' => self::faker()->buildingNumber,
+            'streetName' => self::faker()->streetName,
+            'Type' => self::faker()->citySuffix,
+            'city' => self::faker()->city,
+            'postCode'=> (int) self::faker()->postcode,
+            'country' => self::faker()->country,
         ];
     }
 

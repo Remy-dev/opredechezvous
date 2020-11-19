@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -175,41 +176,41 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Address::class, mappedBy="user" , orphanRemoval=true)
      * @Groups ("read")
      */
-    private ArrayCollection $addresses;
+    private  $addresses;
 
     /**
      * @ORM\ManyToMany(targetEntity=Itinerary::class, mappedBy="user", orphanRemoval=true)
      * @Groups ("read")
      */
-    private ArrayCollection $itineraries;
+    private  $itineraries;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author", orphanRemoval=true)
-     * @Groups ("read")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author", orphanRemoval=true, cascade={"persist"})
+     * @Groups ({"read", "write"})
      */
-    private ArrayCollection $commentsAuthor;
+    private  $commentsAuthor;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="addressee", orphanRemoval=true)
-     * @Groups ("read")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="addressee", orphanRemoval=true, cascade={"persist"})
+     * @Groups ({"read", "write"})
      */
-    private ArrayCollection $commentsAddressee;
+    private  $commentsAddressee;
 
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="user", orphanRemoval=true)
      *  @Groups ("read")
      */
-    private ArrayCollection $products;
+    private  $products;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="users", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="users", orphanRemoval=true, cascade={"persist"})
      *  @Groups ("read")
      */
-    private ArrayCollection $tags;
+    private  $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
      * @Groups("read")
      */
     private ?Role $role;
@@ -223,12 +224,12 @@ class User implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity=Discussion::class, inversedBy="users")
      */
-    private ArrayCollection $discussions;
+    private  $discussions;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="author")
      */
-    private ArrayCollection $messages;
+    private  $messages;
 
 
     public function __construct()
@@ -702,7 +703,7 @@ class User implements UserInterface
     }
 
 
-    public function sendMailOnRegistration(MailerInterface $mailer)
+    /*public function sendMailOnRegistration(MailerInterface $mailer)
     {
         $email = (new TemplatedEmail())
             ->from('alienmailer@example.com')
@@ -712,7 +713,7 @@ class User implements UserInterface
             ->context(['user'=>$this]);
 
         $mailer->send($email);
-    }
+    }*/
 
     public function getRole(): ?Role
     {

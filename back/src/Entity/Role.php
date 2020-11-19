@@ -39,10 +39,16 @@ class Role
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Admin::class, mappedBy="role", cascade={"persist"})
+     */
+    private $admins;
+
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->admins = new ArrayCollection();
 
     }
     public function __toString()
@@ -102,6 +108,36 @@ class Role
             // set the owning side to null (unless already changed)
             if ($user->getRole() === $this) {
                 $user->setRole(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Admin[]
+     */
+    public function getAdmins(): Collection
+    {
+        return $this->admins;
+    }
+
+    public function addAdmin(Admin $admin): self
+    {
+        if (!$this->admins->contains($admin)) {
+            $this->admins[] = $admin;
+            $admin->setRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin(Admin $admin): self
+    {
+        if ($this->admins->removeElement($admin)) {
+            // set the owning side to null (unless already changed)
+            if ($admin->getRole() === $this) {
+                $admin->setRole(null);
             }
         }
 
