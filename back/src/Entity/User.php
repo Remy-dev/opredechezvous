@@ -59,23 +59,18 @@ use App\Filter\RandomFilter;
 class User implements UserInterface
 {
     /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
-
-    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"write","read"})
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"write", "read"})
      */
-    private $username;
+    private string $username;
 
 
     /**
@@ -83,157 +78,157 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      * @Groups({"write", "read"})
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $firstname;
+    private ?string $firstname;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $lastname;
+    private ?string $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups ({"write", "read"})
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $phone;
+    private ?string $phone;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Groups ({"write", "read"})
      *
      */
-    private $producer;
+    private ?bool $producer;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $image;
+    private ?string $image;
 
     /**
      * @ORM\Column(type="datetime")
      *
      */
-    private $updated_at;
+    private ?\DateTimeInterface $updated_at;
 
     /**
      * @ORM\Column(type="datetime")
      *
      */
-    private $created_at;
+    private ?\DateTimeInterface $created_at;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $emailPro;
+    private ?string $emailPro;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $phonePro;
+    private ?string $phonePro;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $websitePro;
+    private ?string $websitePro;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $imagePro;
+    private ?string $imagePro;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $descriptionPro;
+    private ?string $descriptionPro;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $siretPro;
+    private ?string $siretPro;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $companyPro;
+    private ?string $companyPro;
 
     /**
      * @ORM\OneToMany(targetEntity=Address::class, mappedBy="user" , orphanRemoval=true)
      * @Groups ("read")
      */
-    private $addresses;
+    private ArrayCollection $addresses;
 
     /**
      * @ORM\ManyToMany(targetEntity=Itinerary::class, mappedBy="user", orphanRemoval=true)
      * @Groups ("read")
      */
-    private $itineraries;
+    private ArrayCollection $itineraries;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author", orphanRemoval=true)
      * @Groups ("read")
      */
-    private $commentsAuthor;
+    private ArrayCollection $commentsAuthor;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="addressee", orphanRemoval=true)
      * @Groups ("read")
      */
-    private $commentsAddressee;
+    private ArrayCollection $commentsAddressee;
 
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="user", orphanRemoval=true)
      *  @Groups ("read")
      */
-    private $products;
+    private ArrayCollection $products;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="users", orphanRemoval=true)
      *  @Groups ("read")
      */
-    private $tags;
+    private ArrayCollection $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users", cascade={"persist"})
      * @Groups("read")
      */
-    private $role;
+    private ?Role $role;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups ({"write", "read"})
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\ManyToMany(targetEntity=Discussion::class, inversedBy="users")
      */
-    private $discussions;
+    private ArrayCollection $discussions;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="author")
      */
-    private $messages;
+    private ArrayCollection $messages;
 
 
     public function __construct()
