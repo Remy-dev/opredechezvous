@@ -11,6 +11,7 @@ import {
 
 // STYLES
 import './styles.scss';
+import { map } from 'leaflet/dist/leaflet-src.esm';
 
 const Carte = ({ geometries, itinerary }) => {
   let zoom = 5;
@@ -39,10 +40,13 @@ const Carte = ({ geometries, itinerary }) => {
     <Map
       center={center}
       zoom={zoom}
+      key={`${itinerary}`}
     >
+
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
       {geometries.map((geometry) => (
         <Marker key={`${geometry.lat}${geometry.lng}`} position={[geometry.lat, geometry.lng]}>
           <Popup>

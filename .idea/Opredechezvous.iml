@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/back/src" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/api-platform/api-pack" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/api-platform/core" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/beberlei/doctrineextensions" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/composer" />
@@ -102,6 +103,7 @@
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/monolog-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/notifier" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/options-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/orm-pack" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/phpunit-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/polyfill-intl-grapheme" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/polyfill-intl-icu" />
@@ -122,6 +124,7 @@
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/security-guard" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/security-http" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/serializer" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/serializer-pack" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/service-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/stopwatch" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/string" />

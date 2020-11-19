@@ -16,7 +16,7 @@ import { baseUriAPI } from 'src/selectors';
 const auth = (store) => (next) => (action) => {
   switch (action.type) {
     case LOGIN_CHECK:
-      console.log('LOGIN');
+      console.log('LOGIN du case LOGIN_CHECK');
       // Si tu fais un test connecté :
       axios.post(
         `${baseUriAPI}/api/login_check`,
@@ -30,7 +30,7 @@ const auth = (store) => (next) => (action) => {
         },
       )
         .then((response) => {
-          // console.log(response);
+          console.log('then du case LOGIN_CHECK de l\'axios.post ' + response);
           sessionStorage.setItem('jwt', response.data.token);
           console.log(sessionStorage.jwt);
           store.dispatch(userLogin(response.data.data.iri));

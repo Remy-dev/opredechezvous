@@ -141,6 +141,9 @@
       <path value="$PROJECT_DIR$/back/vendor/seld/jsonlint" />
       <path value="$PROJECT_DIR$/back/vendor/roave/signature" />
       <path value="$PROJECT_DIR$/back/vendor/roave/better-reflection" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/orm-pack" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/serializer-pack" />
+      <path value="$PROJECT_DIR$/back/vendor/api-platform/api-pack" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

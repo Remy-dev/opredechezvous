@@ -42,6 +42,6 @@ export const changeDateTime = (dateFormated) => {
   return stepDateTwo;
 };
 
-export const baseUriAPI = 'opdcv/back';
-// export const baseUriAPI = 'opdcv/back/';
+// export const baseUriAPI = 'opdcv/back';
+export const baseUriAPI = 'http://localhost:8000';
 export const mercureUri = new URL('http://localhost:3000/.well-known/mercure');

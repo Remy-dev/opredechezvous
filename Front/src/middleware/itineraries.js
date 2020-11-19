@@ -23,6 +23,7 @@ import { baseUriAPI } from 'src/selectors';
 const itineraries = (store) => (next) => (action) => {
   switch (action.type) {
     case FETCH_ITINERARIES:
+      console.log('fetch itineraries');
       store.dispatch(clearItineraries());
       store.dispatch(clearGeometry());
       axios.get(`${baseUriAPI}/api/itineraries`, { params: { state: 'active' } }, { 'Content-Type': 'application/json' })
@@ -31,7 +32,16 @@ const itineraries = (store) => (next) => (action) => {
           console.log( 'heeeeeeeeeeeeeeeee : ' + response.data);
           store.dispatch(saveItineraries(response.data['hydra:member']));
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          }
+          else if (error.request) {
+            console.log(error.request);
+          }
+        });
       break;
     case SEARCH_ITINERARIES:
       store.dispatch(clearItineraries());
@@ -74,9 +84,14 @@ const itineraries = (store) => (next) => (action) => {
           // console.log('ItineraryUser:', response);
           store.dispatch(saveItineraries(response.data['hydra:member']));
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response.data);
+          console.log(error.response.headers);
+        });
       break;
     case FETCH_HOME_ITINERARIES:
+      console.log('fetch home itineraries');
       store.dispatch(clearItineraries());
       axios.get(`${baseUriAPI}/api/itineraries`, { params: {
         itemsPerPage: 3,
@@ -84,6 +99,9 @@ const itineraries = (store) => (next) => (action) => {
         state: 'active',
       }}, { 'Content-Type': 'application/json' })
         .then((response) => {
+          console.log(response.status);
+          console.log(response.headers);
+          console.log(response.data);
           store.dispatch(saveItineraries(response.data['hydra:member']));
         })
         .catch((error) => console.log(error));
