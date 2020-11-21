@@ -11,8 +11,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource(mercure=true)
+ *
  * @ApiResource(
+ *
+ *     mercure=true,
  *
  *     collectionOperations={
  *          "get"={"security"="is_granted('ROLE_USER')"},
