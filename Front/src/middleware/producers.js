@@ -32,11 +32,9 @@ const producers = (store) => (next) => (action) => {
       store.dispatch(clearProducers());
       store.dispatch(clearGeometry());
       // Fetch producers
-      axios.get(`${baseUriAPI}/api/users`, {
-        params: {
-          producer: true,
-        },
-      })
+      axios.get(`${baseUriAPI}/api/users`, { params: {
+        producer: true,
+      }}, { 'Content-Type': 'application/json' })
         .then((response) => {
           // console.log(response.data['hydra:member']);
           store.dispatch(saveProducers(response.data['hydra:member']));

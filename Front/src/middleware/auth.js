@@ -1,7 +1,7 @@
 import axios from 'axios';
 // Local import
 
-// import { LOGIN } from 'src/actions/auth';
+import { LOGIN } from 'src/actions/auth';
 
 import {
   LOGIN_CHECK,
@@ -16,7 +16,7 @@ import { baseUriAPI } from 'src/selectors';
 const auth = (store) => (next) => (action) => {
   switch (action.type) {
     case LOGIN_CHECK:
-      console.log('LOGIN du case LOGIN_CHECK');
+      console.log('LOGIN');
       // Si tu fais un test connecté :
       axios.post(
         `${baseUriAPI}/api/login_check`,
@@ -24,13 +24,10 @@ const auth = (store) => (next) => (action) => {
           username: store.getState().auth.identifiant,
           password: store.getState().auth.password,
         },
-        {
-          Authorization: `Bearer ${sessionStorage.jwt}`,
-          'Content-Type': 'application/json',
-        },
+        { 'Content-Type': 'application/json' },
       )
         .then((response) => {
-          console.log('then du case LOGIN_CHECK de l\'axios.post ' + response);
+          // console.log(response);
           sessionStorage.setItem('jwt', response.data.token);
           console.log(sessionStorage.jwt);
           store.dispatch(userLogin(response.data.data.iri));
@@ -44,7 +41,7 @@ const auth = (store) => (next) => (action) => {
         `${baseUriAPI}${action.iri}`,
         {},
         {
-          Authorization: `Bearer ${sessionStorage.jwt}`,
+          // Authorization: `Bearer ${sessionStorage.jwt}`,
           'Content-Type': 'application/json',
         },
       )

@@ -18,20 +18,20 @@ import itineraryAdd from 'src/middleware/itineraryAdd';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancers = composeEnhancers(
-  applyMiddleware(
-    // logMiddleware,
-    // secondMiddleware,
-    register,
-    auth,
-    carte,
-    itineraries,
-    producers,
-    tags,
-    products,
-    users,
-    messages,
-    itineraryAdd,
-  ),
+    applyMiddleware(
+        // logMiddleware,
+        // secondMiddleware,
+        register,
+        auth,
+        carte,
+        itineraries,
+        producers,
+        tags,
+        products,
+        users,
+        messages,
+        itineraryAdd,
+    ),
 );
 
 // == Store

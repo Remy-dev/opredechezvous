@@ -2,18 +2,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-//@api-platform
-import ReactDOM from 'react-dom';
-// import { createStore, combineReducers, applyMiddleware } from 'redux';
-// import thunk from 'redux-thunk';
-// import { reducer as form } from 'redux-form';
-// import { Route, Switch } from 'react-router-dom';
-// import { createBrowserHistory } from 'history';
 
-// import 'bootstrap/dist/css/bootstrap.css';
-// import 'font-awesome/css/font-awesome.css';
-// import * as serviceWorker from './serviceWorker';
-// Import your reducers and routes here
 import { BrowserRouter as Router } from 'react-router-dom';
 // == Import : local
 // Composants

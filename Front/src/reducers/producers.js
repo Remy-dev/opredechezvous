@@ -36,9 +36,7 @@ const producers = (state = initialState, action = {}) => {
       };
     case SAVE_PRODUCERS:
       // Prepare the new array of producers
-      // eslint-disable-next-line no-case-declarations
       let newProducers = [];
-      console.log('fichier producers');
       if (state.producers.length > 0) {
         newProducers = state.producers;
       }

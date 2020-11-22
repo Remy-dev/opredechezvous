@@ -26,15 +26,11 @@ const initialState = {
 const itineraries = (state = initialState, action = {}) => {
   switch (action.type) {
     case SAVE_ITINERARIES:
-      // eslint-disable-next-line no-case-declarations
       let newItineraries = [];
-      console.log('howdy ho');
-      console.log(state);
       if (state.itineraries.length > 0) {
         newItineraries = state.itineraries;
       }
       action.itineraries.forEach((itinerary) => {
-        console.log('action.itineraries.forEach du fichier reducers/itineraries.js ' + itinerary);
         let included = false;
         newItineraries.forEach((oldItineraries) => {
           if (itinerary['@id'] === oldItineraries['@id']) {
