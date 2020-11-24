@@ -1,7 +1,7 @@
 import axios from 'axios';
 // Local import
 
-import { LOGIN } from 'src/actions/auth';
+// import { LOGIN } from 'src/actions/auth';
 
 import {
   LOGIN_CHECK,

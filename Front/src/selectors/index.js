@@ -40,4 +40,4 @@ export const changeDateTime = (dateFormated) => {
 };
 
 export const baseUriAPI = 'http://www.opdcvback.com';
-export const mercureUri = new URL('http://localhost:3000/.well-known/mercure');
+export const mercureUri = new URL('http://localhost:3000');

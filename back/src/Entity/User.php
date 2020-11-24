@@ -41,18 +41,9 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  *
  * )
 
- * @ApiFilter (
- *     SearchFilter::class, properties={"tags.name", "companyPro": "partial" }
- *     )
- * @ApiFilter (
- *     BooleanFilter::class, properties={"producer"}
- *     )
- *
- * @ApiFilter (
- *     OrderFilter::class, properties={"id"}
- *     )
- *
- *
+ * @ApiFilter (SearchFilter::class, properties={"tags.name", "companyPro": "partial" })
+ * @ApiFilter (BooleanFilter::class, properties={"producer"})
+ * @ApiFilter (OrderFilter::class, properties={"id": "ASC"})
  * @ApiFilter(BooleanFilter::class, properties={"producer"})
  * @ApiFilter(RandomFilter::class, properties={"random"})
  *
@@ -702,17 +693,21 @@ class User implements UserInterface
     }
 
 
-    /*public function sendMailOnRegistration(MailerInterface $mailer)
+    public function sendMailOnRegistration(MailerInterface $mailer)
     {
         $email = (new TemplatedEmail())
             ->from('alienmailer@example.com')
             ->to($this->getEmail())
             ->subject('Une autre façon de penser la consommation, un nouvel appuie pour les producteurs, un pas de plus pour un environnement préservé.')
             ->htmlTemplate('emails/welcome_notification.html.twig')
-            ->context(['user'=>$this]);
-
+            ->context([
+                'user'=>$this,
+                'expiration_date' => new \DateTime('+1 hour')
+            ]);
+        $email->getHeaders()
+                ->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply')
         $mailer->send($email);
-    }*/
+    }
 
     public function getRole(): ?Role
     {

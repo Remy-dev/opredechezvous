@@ -50,7 +50,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function getCredentials(Request $request)
     {
-        $this->logger->notice('chui passé par getCredentials');
+        $this->logger->info($request->get('username') .' tried to authenticate');
         $credentials = [
             'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),
@@ -66,7 +66,6 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $this->logger->notice('chui passé par getUser');
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
@@ -78,7 +77,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
-
+        $this->logger->info($admin->getUsername(). ' is granted');
         return $admin;
     }
 

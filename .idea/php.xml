@@ -144,6 +144,8 @@
       <path value="$PROJECT_DIR$/back/vendor/symfony/orm-pack" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/serializer-pack" />
       <path value="$PROJECT_DIR$/back/vendor/api-platform/api-pack" />
+      <path value="$PROJECT_DIR$/back/vendor/zenstruck/foundry" />
+      <path value="$PROJECT_DIR$/back/vendor/fakerphp/faker" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

@@ -37,20 +37,17 @@ security:
 
         api:
             pattern:   ^/api
-            stateless: true
             anonymous: true
+            stateless: true
             lazy: true
             provider: api_user_provider
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
-
-
         main:
             anonymous: true
             lazy: true
-
             # activate different ways to authenticate
 
             # http_basic: true
@@ -66,6 +63,7 @@ security:
                 check_path: app_login
                 username_parameter: login[_username]
                 password_parameter: login[_password]
+
             guard:
                 authenticators:
                     - App\Security\AppAuthenticator
@@ -74,17 +72,15 @@ security:
                 path:   /logout
                 target: app_login
 
-
-
     access-control:
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/[a-z]+/\d+, roles: ROLE_USER }
         - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_MODERATOR, ROLE_PRODUCER, ROLE_USER]
-        ROLE_MODERATOR: [ROLE_PRODUCER, ROLE_USER]
-        ROLE_PRODUCER: [ROLE_USER]
+        ROLE_ADMIN: ROLE_MODERATOR
+        ROLE_MODERATOR: ROLE_PRODUCER
+        ROLE_PRODUCER: ROLE_USER
 
 
 

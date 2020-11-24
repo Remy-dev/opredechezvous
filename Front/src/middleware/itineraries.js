@@ -89,7 +89,7 @@ const itineraries = (store) => (next) => (action) => {
       break;
     case FETCH_ITINERARY_USER:
     // console.log(action.userIriArray[0]);
-      axios.get(`${baseUriAPI}${action.userIriArray[0]}`)
+      axios.get(`${baseUriAPI}/${action.userIriArray[0]}`)
         .then((response) => {
           store.dispatch(saveItinerariesUser(response.data, action.itineraryId));
         })

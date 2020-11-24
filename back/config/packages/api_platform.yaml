@@ -1,8 +1,5 @@
 api_platform:
 
-    eager_loading:
-        max_joins: 100
-
     collection:
         pagination:
             client_items_per_page: true
