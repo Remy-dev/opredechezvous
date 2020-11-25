@@ -1,8 +1,8 @@
-import { CHANGE_INPUT_VALUE, CHANGE_CHECKBOX } from 'src/actions/register';
 import {
+  CHANGE_INPUT_VALUE, CHANGE_CHECKBOX,
   REGISTER_ERROR,
   CLEAR_FORM,
-} from '../actions/register';
+} from 'src/actions/register';
 
 const initialState = {
   firstname: '',

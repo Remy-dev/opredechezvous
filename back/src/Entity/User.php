@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
+use App\Traits\Hydrator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use App\Filter\RandomFilter;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
@@ -51,6 +53,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  */
 class User implements UserInterface
 {
+    use Hydrator;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -62,6 +65,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"write", "read"})
+     *
      */
     private string $username;
 
@@ -70,12 +74,14 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Groups({"write", "read"})
+     * @Assert\NotBlank
      */
     private string $password;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=true)
      * @Groups ({"write", "read"})
+     *
      */
     private ?string $firstname;
 
@@ -88,6 +94,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups ({"write", "read"})
+     * @Assert\Email
      */
     private ?string $email;
 
@@ -221,8 +228,13 @@ class User implements UserInterface
      */
     private  $messages;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $active = false;
 
-    public function __construct()
+
+    public function __construct($datas = [])
     {
         $this->addresses = new ArrayCollection();
         $this->itineraries = new ArrayCollection();
@@ -232,13 +244,10 @@ class User implements UserInterface
         $this->tags = new ArrayCollection();
         $this->discussions = new ArrayCollection();
         $this->messages = new ArrayCollection();
-
+        $this->hydrate($datas);
     }
 
-    public function __toString(): string
-    {
-        return $this->username;
-    }
+
 
     public function getId(): ?int
     {
@@ -693,7 +702,7 @@ class User implements UserInterface
     }
 
 
-    public function sendMailOnRegistration(MailerInterface $mailer)
+    /*public function sendMailOnRegistration(MailerInterface $mailer)
     {
         $email = (new TemplatedEmail())
             ->from('alienmailer@example.com')
@@ -705,9 +714,9 @@ class User implements UserInterface
                 'expiration_date' => new \DateTime('+1 hour')
             ]);
         $email->getHeaders()
-                ->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply')
+                ->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
         $mailer->send($email);
-    }
+    }*/
 
     public function getRole(): ?Role
     {
@@ -765,6 +774,18 @@ class User implements UserInterface
     public function getMessages(): Collection
     {
         return $this->messages;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
     }
 
 

@@ -6,7 +6,8 @@ import {
   clearForm,
 } from 'src/actions/register';
 
-import { baseUriAPI } from 'src/selectors';
+import { baseUri } from 'src/selectors';
+
 const registerErrorsArray = [];
 
 const register = (store) => (next) => (action) => {
@@ -22,7 +23,7 @@ const register = (store) => (next) => (action) => {
         registerErrorsArray.push('Vous devez accepter les conditions d\'utilisation');
       }
 
-      if (store.getState().register.password.length < 3) {
+      if (store.getState().register.password.length <= 3) {
         registerErrorsArray.push('Le mot de passe doit faire au moins 4 caractères');
       }
 
@@ -30,8 +31,8 @@ const register = (store) => (next) => (action) => {
         store.dispatch(registerError(registerErrorsArray));
       }
       else {
-        console.log('submit ok');
-        axios.post(`${baseUriAPI}/api/users`, {
+        console.log('submit ok ');
+        axios.post(`${baseUri}/register`, {
           username: store.getState().register.firstname.toLowerCase(),
           firstname: store.getState().register.firstname,
           lastname: store.getState().register.lastname,
@@ -51,10 +52,9 @@ const register = (store) => (next) => (action) => {
           phonePro: store.getState().register.telPro,
           image: 'http://lorempixel.com/640/480',
           imagePro: 'http://lorempixel.com/640/480',
-        },
-        { 'Content-Type': 'application/json' })
-          .then ((response) => store.dispatch(clearForm()))
-          .catch((error) => console.log(error));
+        }, { 'Content-Type': 'application/json' })
+          .then((response) => store.dispatch(clearForm()))
+          .catch((error) => console.log(error.response));
       }
       break;
     case REGISTER_PRODUCER_SUBMIT:
@@ -69,7 +69,7 @@ const register = (store) => (next) => (action) => {
       }
       else {
         console.log('submit producer register ok');
-        axios.put(`${baseUriAPI}/api/users/${store.getState().auth.user.id}`, {
+        axios.put(`${baseUri}/api/users/${store.getState().auth.user.id}`, {
           producer: true,
           companyPro: store.getState().register.companyName,
           websitePro: store.getState().register.website,
@@ -87,7 +87,7 @@ const register = (store) => (next) => (action) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.jwt}`,
         })
-          .then ((response) => store.dispatch(clearForm()))
+          .then((response) => store.dispatch(clearForm()))
           .catch((error) => console.log(error));
       }
       break;

@@ -22,6 +22,7 @@ const Register = ({ wantToBeProducer, registerSubmit, errors }) => (
     )}
     <form
       className="registerForm"
+      encType="multipart/form-data"
       onSubmit={(evt) => {
         evt.preventDefault();
         registerSubmit();

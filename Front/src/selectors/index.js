@@ -10,10 +10,9 @@
 //   return maxId + 1;
 // };
 
-export const isAuthor = (author, pseudo) => author === pseudo;
-
 import slugify from 'slugify';
 
+export const isAuthor = (author, pseudo) => author === pseudo;
 
 export const slugifyText = (text = '') => {
   const modifiedText = text.replace(/&/g, '').replace(/_/g, '-');
@@ -40,4 +39,5 @@ export const changeDateTime = (dateFormated) => {
 };
 
 export const baseUriAPI = 'http://www.opdcvback.com';
+export const baseUri = 'http://www.opdcvback.com';
 export const mercureUri = new URL('http://localhost:3000');

@@ -3,11 +3,14 @@
 {% block content %}
     <div class="container">
 
-        <sub><em>Une autre façon de penser la consommation, un nouvel appuie pour les artisans, un pas de plus pour un environnement préservé.</em></sub> <br />
+        <h3 class="font-weight-light">Bienvenue {{ user.username | upper }}  🐄</h3>
 
-        <h3 class="font-weight-light">Bienvenue {{ user }}  🐄</h3>
-
-        <p>Bientôt, ici, se trouvera un lien qui permettra de valider ton compte</p>
+        <p>
+            <a href="http://www.opdcvback.com/mail-validation/{{ user.id }}/{{ token.value }}">
+                Clique ici pour valider ton inscription
+            </a>
+            ( Ce lien est valable 1 heure )
+        </p>
 
 
     </div>
