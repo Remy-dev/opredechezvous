@@ -701,23 +701,6 @@ class User implements UserInterface
         $this->updated_at = new \DateTime();
     }
 
-
-    /*public function sendMailOnRegistration(MailerInterface $mailer)
-    {
-        $email = (new TemplatedEmail())
-            ->from('alienmailer@example.com')
-            ->to($this->getEmail())
-            ->subject('Une autre façon de penser la consommation, un nouvel appuie pour les producteurs, un pas de plus pour un environnement préservé.')
-            ->htmlTemplate('emails/welcome_notification.html.twig')
-            ->context([
-                'user'=>$this,
-                'expiration_date' => new \DateTime('+1 hour')
-            ]);
-        $email->getHeaders()
-                ->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
-        $mailer->send($email);
-    }*/
-
     public function getRole(): ?Role
     {
         return $this->role;

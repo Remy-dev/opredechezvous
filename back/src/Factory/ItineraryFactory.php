@@ -22,15 +22,11 @@ final class ItineraryFactory extends ModelFactory
     public function __construct()
     {
         parent::__construct();
-
-        // TODO inject services if required (https://github.com/zenstruck/foundry#factories-as-services)
     }
 
     protected function getDefaults(): array
     {
         return [
-            // TODO add your default values here (https://github.com/zenstruck/foundry#model-factories)
-
             'departureAddress' => self::faker()->address,
             'arrivalAddress' => self::faker()->address,
             'dateDeparture' => self::faker()->dateTimeBetween('-1 day', '+2 days'),

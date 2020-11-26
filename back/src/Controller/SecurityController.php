@@ -98,8 +98,6 @@ class SecurityController extends AbstractController
         $this->sendMail($user, $this->token);
 
         return new Response('', Response::HTTP_OK);
-       # return new Response('', Response::HTTP_BAD_REQUEST);
-
     }
 
     public function encodeToken($user)

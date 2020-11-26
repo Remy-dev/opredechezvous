@@ -69,15 +69,14 @@ class AppFixtures extends Fixture
             $manager->flush();
 
             foreach ($users as $u) {
-                // New user based on list
-              //  if (time_sleep_until(time() + 1)) {
 
                     if ($role->getName() === 'Utilisateur' || $role->getName() === 'Producteur') {
 
                         $user = UserFactory::new()->create(['username' => $u])->object();
-                      //  $usersEntities[] = $user;
                         $user->setRole($role);
+
                         print 'Adding user ' . $user->getUsername() . PHP_EOL;
+
                         AddressFactory::new()->create(['user' => $user]);
 
                         $itinerary = ItineraryFactory::new()->create()->object();
@@ -103,13 +102,11 @@ class AppFixtures extends Fixture
 
                         print 'Adding admin ' . $admin->getUsername() . PHP_EOL;
                     }
-
-
-            //    }
             }
 
             $users = $this->userRepository->findAll();
             print 'commentaire : ' . PHP_EOL;
+
             foreach ($users as $user) {
                 $comment = CommentFactory::new()->create(['author' => $user ])->object();
                 $addressee = $this->userRepository->findOneRandom($user);

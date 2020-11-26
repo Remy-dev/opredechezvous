@@ -16,6 +16,6 @@ nelmio_cors:
 
         '^/mail-validation':
             allow_origin: ['*']
-            allow_headers: ['*']
+            allow_headers: ['*'] # mettre des headers personnalisés ?
             allow_methods: ['GET', 'OPTIONS']
             max_age: 3600

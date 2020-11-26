@@ -46,15 +46,13 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
         main:
-            anonymous: true
-            lazy: true
-            # activate different ways to authenticate
-
             # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
+            anonymous: true
+            lazy: true
 
             provider: app_admin_provider
 
