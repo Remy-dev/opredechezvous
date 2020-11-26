@@ -11,6 +11,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * @ORM\Entity(repositoryClass=DiscussionRepository::class)
  * @ApiResource()
+ * @ORM\HasLifecycleCallbacks
  */
 class Discussion
 {
@@ -30,6 +31,16 @@ class Discussion
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="conversation", cascade={"persist"})
      */
     private $messages;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
 
     public function __construct()
@@ -105,5 +116,46 @@ class Discussion
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPersist()
+    {
+        $this->createdAt = new \Datetime();
+        $this->updatedAt = new \Datetime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onUpdate()
+    {
+        $this->updatedAt = new \Datetime();
     }
 }

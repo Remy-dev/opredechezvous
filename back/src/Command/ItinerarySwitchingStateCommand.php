@@ -43,28 +43,32 @@ class ItinerarySwitchingStateCommand extends Command
 
             foreach ($itineraries as $itinerary)
             {
+                if ('active' === $itinerary->getState())
+                {
+                    $nowTimestamp = time();
+                    $hour = date($itinerary->getDateDeparture()->format('H'));
+                    $day = date($itinerary->getDateDeparture()->format('j'));
+                    $month = date($itinerary->getDateDeparture()->format('m'));
+                    $year = date($itinerary->getDateDeparture()->format('Y'));
+
+                    $itineraryDepatureTimeStamp = mktime($hour, 0, 0, $month, $day, $year);
+
+
+                    if ($itineraryDepatureTimeStamp < $nowTimestamp)
+                    {
+                        $itinerary->setState('archived');
+
+                        $io->success('Itineraries have been archived ');
+                        continue;
+
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 // comparaison de temps en utilisant le timestamp
-                $nowTimestamp = time();
-                $hour = date($itinerary->getDateDeparture()->format('H'));
-                $day = date($itinerary->getDateDeparture()->format('j'));
-                $month = date($itinerary->getDateDeparture()->format('m'));
-                $year = date($itinerary->getDateDeparture()->format('Y'));
 
-                $itineraryDepatureTimeStamp = mktime($hour, 0, 0, $month, $day, $year);
-
-
-                if ($itineraryDepatureTimeStamp < $nowTimestamp)
-                {
-                    $itinerary->setState('archived');
-
-                    $io->success('Itineraries have been archived ');
-                    continue;
-
-                }
-                else
-                {
-                    continue;
-                }
             }
             $this->manager->flush();
             return Command::SUCCESS;
